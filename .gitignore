@@ -1,0 +1,42 @@
+# Local-only scripts (not uploaded)
+generate_ds_dataset.py
+generate_theory_dataset.py
+infer.py
+eval.py
+
+# Datasets
+data/
+
+# Model outputs/adapters
+output/
+output_theory/
+checkpoint*/
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Virtual environments
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore API keys or config files
+.env
+*.env
+*.key
+config.py
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
