@@ -19,18 +19,17 @@ A Gradio app routes requests (Auto / Code / Explain), has **DS guardrails**, **c
 
 ##  Architecture
 
-```mermaid
 flowchart TB
-    U[User Prompt] --> R[Router: Detect Mode (Auto/Code/Explain) + DS Topic Check]
-    R -- DS + Code --> A1[LoRA Code Adapter]
-    R -- DS + Explain --> A2[LoRA Theory Adapter]
-    R -- Non-DS or Guard OFF --> B[Base Model: Mistral-7B 4-bit]
-    A1 --> G[Generator]
-    A2 --> G
-    B --> G
-    G --> C[Output Cleaner: Format Code / Prose]
-    C --> UI[Gradio UI with Status Chip]
-```
+U[User Prompt] --> R[Router: Detect Mode \(Auto/Code/Explain\) + DS Topic Check]
+R -- DS + Code --> A1[LoRA Code Adapter]
+R -- DS + Explain --> A2[LoRA Theory Adapter]
+R -- Non-DS or Guard OFF --> B[Base Model: Mistral-7B 4-bit]
+A1 --> G[Generator]
+A2 --> G
+B --> G
+G --> C[Output Cleaner: Format Code / Prose]
+C --> UI[Gradio UI with Status Chip]
+
 
 ## Flow in Steps
 1. **User Prompt** – User asks a question (e.g., "What is cross-validation?" or "Plot histogram").
