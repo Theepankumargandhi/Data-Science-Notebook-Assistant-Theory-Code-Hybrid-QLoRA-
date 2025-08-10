@@ -21,33 +21,16 @@ A Gradio app routes requests (Auto / Code / Explain), has **DS guardrails**, **c
 
 ```mermaid
 flowchart TB
-U[User Prompt] --> R[Router: Detect Mode 
-𝐴
-𝑢
-𝑡
-𝑜
-/
-𝐶
-𝑜
-𝑑
-𝑒
-/
-𝐸
-𝑥
-𝑝
-𝑙
-𝑎
-𝑖
-𝑛
-Auto/Code/Explain + DS Topic Check]
-R -- DS + Code --> A1[LoRA Code Adapter]
-R -- DS + Explain --> A2[LoRA Theory Adapter]
-R -- Non-DS or Guard OFF --> B[Base Model: Mistral-7B 4-bit]
-A1 --> G[Generator]
-A2 --> G
-B --> G
-G --> C[Output Cleaner: Format Code / Prose]
-C --> UI[Gradio UI with Status Chip]
+    U[User Prompt] --> R[Router: Detect Mode (Auto/Code/Explain)<br/>+ DS Topic Check]
+    R -- DS + Code --> A1[LoRA Code Adapter]
+    R -- DS + Explain --> A2[LoRA Theory Adapter]
+    R -- Non-DS or Guard OFF --> B[Base Model: Mistral-7B 4-bit]
+    A1 --> G[Generator]
+    A2 --> G
+    B --> G
+    G --> C[Output Cleaner: Format Code / Prose]
+    C --> UI[Gradio UI with Status Chip]
+
 ```
 
 ## Flow in Steps
