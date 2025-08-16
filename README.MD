@@ -97,7 +97,7 @@ flowchart TB
 **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/ds-notebook-assistant.git
+git clone https://github.com/Theepankumargandhi/ds-notebook-assistant.git
 cd ds-notebook-assistant
 ```
 
