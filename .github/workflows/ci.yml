@@ -17,20 +17,17 @@ jobs:
         with:
           python-version: '3.10'
           
-      - name: Install dependencies
+      - name: Install test dependencies
         run: |
           pip install pytest
-          pip install -r requirements.txt
           
-      - name: Test routing logic
+      - name: Run routing logic tests
         run: |
-          python -c "
-          from app_memory import _route_mode, _is_ds_query
-          assert _route_mode('plot histogram') == 'code'
-          assert _route_mode('what is overfitting') == 'explain'
-          assert _is_ds_query('machine learning') == True
-          print('All tests passed!')
-          "
+          python tests/test_simple.py
+          
+      - name: Run pytest
+        run: |
+          pytest tests/ -v
 
   build:
     runs-on: ubuntu-latest
@@ -42,6 +39,6 @@ jobs:
         run: |
           docker build -t ds-assistant:${{ github.sha }} .
           
-      - name: Test container builds
+      - name: Verify image creation
         run: |
           docker images | grep ds-assistant
