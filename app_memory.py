@@ -1,5 +1,6 @@
 # app_memory.py
 import re
+import os
 import gradio as gr
 import torch
 from typing import List, Tuple
@@ -173,11 +174,13 @@ def _needs_context(user_text: str) -> bool:
 bnb = BitsAndBytesConfig(
     load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
 )
-tok = AutoTokenizer.from_pretrained(BASE, use_fast=True)
+tok = AutoTokenizer.from_pretrained(BASE, use_fast=True, token=os.getenv("HUGGINGFACE_HUB_TOKEN"))
 model_base = AutoModelForCausalLM.from_pretrained(
-    BASE, device_map="auto",
+    BASE,
+    device_map="auto",
     torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float16,
     quantization_config=bnb,
+    token=os.getenv("HUGGINGFACE_HUB_TOKEN")
 )
 if tok.pad_token is None: tok.pad_token = tok.eos_token
 model_base.config.pad_token_id = tok.pad_token_id
@@ -186,16 +189,18 @@ HAS_ENABLE_DISABLE = False
 CODE_ADAPTER_NAME = "code"
 THEORY_ADAPTER_NAME = "theory"
 
-try:
-    model = PeftModel.from_pretrained(model_base, CODE_ADAPTER_DIR, adapter_name=CODE_ADAPTER_NAME)
-    model.load_adapter(THEORY_ADAPTER_DIR, adapter_name=THEORY_ADAPTER_NAME)
-    HAS_ENABLE_DISABLE = hasattr(model, "disable_adapter_layers") and hasattr(model, "enable_adapter_layers")
-except TypeError:
-    model = PeftModel.from_pretrained(model_base, CODE_ADAPTER_DIR)
-    try: CODE_ADAPTER_NAME = next(iter(model.peft_config.keys()))
-    except Exception: CODE_ADAPTER_NAME = "default"
-    model.load_adapter(THEORY_ADAPTER_DIR, adapter_name=THEORY_ADAPTER_NAME)
-    HAS_ENABLE_DISABLE = hasattr(model, "disable_adapter_layers") and hasattr(model, "enable_adapter_layers")
+#try:
+#    model = PeftModel.from_pretrained(model_base, CODE_ADAPTER_DIR, adapter_name=CODE_ADAPTER_NAME)
+#    model.load_adapter(THEORY_ADAPTER_DIR, adapter_name=THEORY_ADAPTER_NAME)
+#    HAS_ENABLE_DISABLE = hasattr(model, "disable_adapter_layers") and hasattr(model, "enable_adapter_layers")
+#except TypeError:
+#    model = PeftModel.from_pretrained(model_base, CODE_ADAPTER_DIR)
+#    try: CODE_ADAPTER_NAME = next(iter(model.peft_config.keys()))
+#    except Exception: CODE_ADAPTER_NAME = "default"
+#   model.load_adapter(THEORY_ADAPTER_DIR, adapter_name=THEORY_ADAPTER_NAME)
+#    HAS_ENABLE_DISABLE = hasattr(model, "disable_adapter_layers") and hasattr(model, "enable_adapter_layers")
+model = model_base
+HAS_ENABLE_DISABLE = False
 
 try: model.set_adapter(CODE_ADAPTER_NAME)
 except Exception: pass

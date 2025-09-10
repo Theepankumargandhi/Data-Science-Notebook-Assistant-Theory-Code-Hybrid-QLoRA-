@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ds-assistant:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./output_theory:/app/output_theory
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - HUGGINGFACE_HUB_TOKEN=${HUGGINGFACE_HUB_TOKEN}
+    env_file:
+      - .env
+    restart: unless-stopped

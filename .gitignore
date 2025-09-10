@@ -4,6 +4,8 @@ generate_theory_dataset.py
 infer.py
 eval.py
 
+echo ".env" >> .gitignore
+
 # Datasets
 data/
 

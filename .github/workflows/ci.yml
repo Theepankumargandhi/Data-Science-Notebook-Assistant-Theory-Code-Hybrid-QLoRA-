@@ -1,0 +1,47 @@
+name: MLOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          pip install pytest
+          pip install -r requirements.txt
+          
+      - name: Test routing logic
+        run: |
+          python -c "
+          from app_memory import _route_mode, _is_ds_query
+          assert _route_mode('plot histogram') == 'code'
+          assert _route_mode('what is overfitting') == 'explain'
+          assert _is_ds_query('machine learning') == True
+          print('All tests passed!')
+          "
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build Docker image
+        run: |
+          docker build -t ds-assistant:${{ github.sha }} .
+          
+      - name: Test container builds
+        run: |
+          docker images | grep ds-assistant
