@@ -10,8 +10,6 @@ echo ".env" >> .gitignore
 data/
 
 # Model outputs/adapters
-output/
-output_theory/
 checkpoint*/
 *.bin
 *.pt

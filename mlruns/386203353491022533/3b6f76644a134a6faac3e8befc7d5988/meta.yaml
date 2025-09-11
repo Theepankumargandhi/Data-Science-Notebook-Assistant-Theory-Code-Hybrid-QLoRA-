@@ -1,0 +1,14 @@
+artifact_uri: file:///home/theepan/ds-notebook-assistant/mlruns/386203353491022533/3b6f76644a134a6faac3e8befc7d5988/artifacts
+end_time: 1757550897085
+entry_point_name: ''
+experiment_id: '386203353491022533'
+lifecycle_stage: active
+run_id: 3b6f76644a134a6faac3e8befc7d5988
+run_name: code_adapter_v1.0_existing
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757550896814
+status: 3
+tags: []
+user_id: theepan
