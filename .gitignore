@@ -40,3 +40,14 @@ Thumbs.db
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+
+*.bin
+*.pt
+*.safetensors
+
+# Ignore model outputs but keep .dvc pointers
+output/*
+!output/*.dvc
+
+output_theory/*
+!output_theory/*.dvc
